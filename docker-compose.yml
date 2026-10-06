@@ -1,0 +1,8 @@
+services:
+  epub-fix:
+    build: .
+    image: epub3-link-fix:latest
+    container_name: epub3-link-fix
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
