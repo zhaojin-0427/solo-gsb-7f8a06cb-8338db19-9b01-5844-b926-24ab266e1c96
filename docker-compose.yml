@@ -1,0 +1,10 @@
+services:
+  epub-link-fix:
+    build: .
+    image: epub-link-fix:local
+    container_name: epub-link-fix
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: "1.0"

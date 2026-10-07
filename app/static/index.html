@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EPUB3 章节跳转修复</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>EPUB3 章节跳转修复（本地工具）</h1>
+  <p>上传未加密 EPUB，修复失效的篇内锚点与 XHTML 相对链接；外部链接不动，字节级精确改写。</p>
+</header>
+
+<main>
+  <section class="card" id="upload-card">
+    <h2>1. 选择 EPUB</h2>
+    <input type="file" id="file" accept=".epub,application/epub+zip">
+    <div class="limits">限制：ZIP ≤ 20 MB；解压总计 ≤ 50 MB；XHTML ≤ 30 篇；不支持加密（META-INF/encryption.xml）EPUB。</div>
+    <div id="status"></div>
+  </section>
+
+  <section class="card" id="errors-card" hidden>
+    <div class="struct-errors">
+      <h2>包结构错误 / 无法继续</h2>
+      <ul id="errors-list"></ul>
+      <div class="help">请按上述定位修正源文件后重新上传。</div>
+    </div>
+  </section>
+
+  <section class="card" id="result-card" hidden>
+    <h2>2. 为失效链接选择新目标</h2>
+    <div class="muted" id="book-name"></div>
+    <div class="stats" id="stats"></div>
+    <div class="help">空 id 选项 = 章节顶部；目标列表仅含 manifest 内 XHTML 的 id。无法定位到原文字节的链接以红色标记，禁止导出。</div>
+    <div style="overflow-x:auto; margin-top:10px;">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="row-loc">来源</th>
+            <th class="row-text">链接文字</th>
+            <th>原 href / 失效原因</th>
+            <th class="row-target">新目标与预览</th>
+          </tr>
+        </thead>
+        <tbody id="links-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="export-card" hidden>
+    <h2>3. 导出</h2>
+    <div class="toolbar">
+      <button class="primary" id="export-btn">导出修复后的 EPUB</button>
+      <span class="muted" id="export-hint"></span>
+    </div>
+    <div class="help">导出时会再次扫描成品；只要仍有失效跳转（包括未裁决项），服务器就会拒绝下载。</div>
+    <div id="export-status"></div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
